@@ -1,0 +1,27 @@
+## The following two functions create, store and retrieve a matrix of the given input and its inverse from cache  
+
+makeCacheMatrix<-function(a=matrix()){			##Set and Get original matrix and its inverse
+	inv<-NULL
+	set<-function(b){
+		a<-b
+		inv<-NULL
+	}
+	get<-function()a
+	setinverse<-function(inverse)inv<<-inverse 	##Set inverse of matrix
+	getinverse<-function()inv			##Get inverse of matrix
+	list( set=set,get=get,
+		setinverse=setinverse,
+		getinverse=getinverse)			##Stores all four functions in the list	
+}
+
+CacheInverse<-function(x, ...){				##Checks for the inverse of the input matrix in cache and if not, then calculates its inverse
+	inv<-x$getinverse()				##Get inverse of matrix
+	if(!is.null(inv)){				##Checks if inverse of matrix is already present
+		message("getting cached data")
+		return(inv)				##Returns results stored in cache
+	}
+	data<-x$get()					##Get matrix 
+	inv<-inverse(data, ...)				##Calculate result 
+	x$setinverse(inv)				##Sets in cache
+	inv
+}
